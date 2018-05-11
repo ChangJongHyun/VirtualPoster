@@ -1,8 +1,9 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
     <script src="js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="https://cdn.dashjs.org/latest/dash.all.min.js"></script>
     <script>
 
         AFRAME.registerComponent('session', {
@@ -29,7 +30,6 @@
                     var scale = evt.detail.intersectedEl.object3D.scale;
                     scale.set(2, 2, 2);
                 });
-
 
 
             },
@@ -94,13 +94,12 @@
             <a-cursor id="cursor"></a-cursor>
         </a-camera>
     </a-entity>
-    <a-entity bmfont-text="text: HELLO!; color: #333" position="0 0 -5"></a-entity>
 
     <!-- assets은 video, img같은 자원을 로딩해줌 (화면 띄우기 ㄴㄴ)-->
     <a-assets>
-        <video id="knock" loop="true" src="./src/cj.mp4"></video>
-        <video id="heart" loop="true" src="./src/sg.mp4"></video>
-        <video id="tt" loop="true" src="./src/ey.mp4"></video>
+        <video id="knock" data-dashjs-player loop="true" src="./Virtual/cj/out_cj.mpd"></video>
+        <video id="heart" data-dashjs-player loop="true" src="./Virtual/ey/out_ey.mpd"></video>
+        <video id="tt" data-dashjs-player loop="true" src="./Virtual/sg/out_sg.mpd"></video>
     </a-assets>
 
     <!-- Using the asset management system. -->`
@@ -112,6 +111,7 @@
              rotation="180 60 180"></a-video>
     <a-video id="video3" src="#tt" width="16" height="9" position="-17.32 0 10" scale="0.5 0.5 0.5"
              rotation="180 -60 180"></a-video>
+    <a-sky src="./img/360.jpg"></a-sky>
 
     <!-- Defining the URL inline. Not recommended but more comfortable for web developers. -->
 </a-scene>
