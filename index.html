@@ -22,7 +22,6 @@
                 knock = document.getElementById("knock");
                 heart = document.getElementById("heart");
                 tt = document.getElementById("tt");
-                var i = 0;
                 videoArr.push(knock);
                 videoArr.push(heart);
                 videoArr.push(tt);
@@ -46,31 +45,52 @@
                         tmp++;
                     }
                 });
-                console.log(i)
 
             },
 
-           update: function (oldData) {
-               var data = this.data;
-               var el = this.el;
-               console.log(data);
-               if((oldData.rotate - data.rotate) !== 0) {
-                   console.log(data.rotate)
-               }
-               if(oldData.isLoaded || data.isLoaded)
-                   console.log("Hi");
-           },
             tick: function () {
                 if(tmp === 3) {
                     this.isLoaded = true;
-                    console.log(this.isLoaded);
+                    console.log("All video loaded!");
                     tmp = 0
                 }
 
-                if(this.isLoaded)
-                    //TODO play pause algorithm
+                if(this.isLoaded) {
+                    var regYaw = function (yaw) {
+                        if (yaw >= 0)
+                            yaw -= 360 * parseInt(yaw / 360);
+                        else
+                            yaw += 360 * ((parseInt(yaw / 360) * -1) + 1);
+                        return yaw;
+                    };
 
-                this.rotate = document.querySelector("#camera").getAttribute('rotation').y
+                    this.rotate = regYaw(document.querySelector("#camera").getAttribute('rotation').y)
+
+                    var play = function (id) {
+                        videoArr.forEach(function (item) {
+                            if (item.id === id)
+                                item.play();
+                            else
+                                item.pause();
+                        })
+                    };
+
+                    var auto = function (yaw) {
+
+                        if (yaw >= 300 || yaw < 60) {
+                            play("knock");
+                        }
+                        else if (yaw >= 60 && yaw < 180) {
+                            play("tt");
+                        }
+                        else if (yaw >= 180 && yaw < 300) {
+                            play("heart");
+                        }
+                    };
+
+                    auto(this.rotate);
+                }
+
             }
         });
 
@@ -125,7 +145,6 @@
 <body>
 
 <a-scene session>
-
     <!--<a-entity id=camera camera="active: true" look-controls wasd-controls position="0 0 0" data-aframe-default-camera>
 
     <!--camera는 내 화면의 위치, cursor 마우스 커서같은거-->
@@ -137,9 +156,9 @@
 
     <!-- assets은 video, img같은 자원을 로딩해줌 (화면 띄우기 ㄴㄴ)-->
     <a-assets>
-        <video id="knock" loop="true" src="./src/cj.mp4"></video>
-        <video id="heart" loop="true" src="./src/sg.mp4"></video>
-        <video id="tt" loop="true" src="./src/ey.mp4"></video>
+        <video id="knock" loop="true" src="./src/twice-knock%20knock.mp4"></video>
+        <video id="heart" loop="true" src="./src/twice-heart%20shake.mp4"></video>
+        <video id="tt" loop="true" src="./src/twice-TT.mp4"></video>
     </a-assets>
 
     <!-- Using the asset management system. -->`
